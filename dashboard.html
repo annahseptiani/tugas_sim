@@ -19,11 +19,24 @@
     <!-- My Style -->
     <link rel="stylesheet" href="css/style.css" />
 
-    <!-- Alpain JS -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-  
     <!-- App -->
-     <script src="src/app.js"></script>
+    <script src="src/app.js" async></script>
+
+    <!-- Midtrans -->
+    <script
+      type="text/javascript"
+      src="https://app.sandbox.midtrans.com/snap/snap.js"
+      data-client-key="SB-Mid-client-bZ0ox2X9yofx5FO1"
+    ></script>
+
+    <!-- Alpain JS -->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+
+    <!-- My Javascript
+    <script src="js/script.js"></script> -->
   </head>
   <body>
     <!-- Navbar Start -->
@@ -42,63 +55,85 @@
         <a href="#" id="search-button"><i data-feather="search"></i></a>
         <a href="#" id="shopping-cart-button">
           <i data-feather="shopping-cart"></i>
-          <span class="quantity.badge" x-show="$store.cart.quantity" x-text="$store.cart.quantity"></span>
+          <span
+            class="quantity.badge"
+            x-show="$store.cart.quantity"
+            x-text="$store.cart.quantity"
+          ></span>
         </a>
         <a href="#" id="hamburger-menu"><i data-feather="menu"></i></a>
       </div>
 
       <!-- Search Form Start -->
-       <div class="search-form">
-        <input type="search" id="search-box" placeholder="search here">
+      <div class="search-form">
+        <input type="search" id="search-box" placeholder="search here" />
         <label for="search-box"><i data-feather="search"></i></label>
-       </div>
+      </div>
       <!-- Search Form End -->
 
       <!-- Shopping Cart Start -->
-       <div class="shopping-cart">
+      <div class="shopping-cart">
         <template x-for="(item, index) in $store.cart.items" x-keys="index">
           <div class="cart-item">
-            <img :src="`img/products/${item.img}`" :alt="item.name">
+            <img :src="`img/products/${item.img}`" :alt="item.name" />
             <div class="item-detail">
               <h3 x-text="item.name"></h3>
               <div class="item-price">
                 <span x-text="rupiah(item.price)"></span> &times;
-                <button id="remove" @click="$store.cart.remove(item.id)">&minus;</button>
-                <span x-text="item.quantity"></span>
-                <button id="add" @click="$store.cart.add(item)">&plus;</button> &equals;
+                <button id="remove" @click="$store.cart.remove(item.id)">
+                  &minus;
+                </button>
+                <span x-text="rupiah(item.quantity)"></span>
+                <button id="add" @click="$store.cart.add(item)">&plus;</button>
+                &equals;
                 <span x-text="rupiah(item.total)"></span>
               </div>
             </div>
           </div>
         </template>
-        <h4 x-show="!$store.cart.items.length" style="margin-top: 1rem;">Cart is Empty</h4>
-        <h4 x-show="$store.cart.items.length">Total : <span x-text="rupiah($store.cart.total)"></span></h4>
+        <h4 x-show="!$store.cart.items.length" style="margin-top: 1rem">
+          Cart is Empty
+        </h4>
+        <h4 x-show="$store.cart.items.length">
+          Total : <span x-text="rupiah($store.cart.total)"></span>
+        </h4>
 
         <div class="form-container" x-show="$store.cart.items.length">
           <form action="" id="checkoutForm">
+            <input
+              type="hidden"
+              name="items"
+              x-model="JSON.stringify($store.cart.items)"
+            />
+            <input type="hidden" name="total" x-model="$store.cart.total" />
+
             <h5>Customer Detail</h5>
 
             <label for="name">
               <span>Name</span>
-              <input type="text" name="name" id="name">
+              <input type="text" name="name" id="name" />
             </label>
             <label for="email">
               <span>Email</span>
-              <input type="text" email="email" id="email">
+              <input type="text" name="email" id="email" />
             </label>
-            <label for="phone">
+            <label for="phone]">
               <span>Phone</span>
-              <input type="number" phone="phone" id="phone" autocomplete="off">
+              <input type="number" name="phone" id="phone" autocomplete="off" />
             </label>
 
-            <button class="checkout-button" type="submit" id="checkout-button" value="checkout">Checkout</button>
-
+            <button
+              class="checkout-button disabled"
+              type="submit"
+              id="checkout-button"
+              value="checkout"
+            >
+              Checkout
+            </button>
           </form>
         </div>
-       </div>
+      </div>
       <!-- Shopping Cart End -->
-
-
     </nav>
 
     <!-- navbar End -->
@@ -142,38 +177,41 @@
     <!-- About Section End -->
 
     <!-- Menu Section Start -->
-     <section id="menu" class="menu">
+    <section id="menu" class="menu">
       <h2><span>Menu</span> Kami</h2>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam iure voluptas doloribus dolore, ut iusto!</p>
-      
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam iure
+        voluptas doloribus dolore, ut iusto!
+      </p>
+
       <div class="row">
         <div class="menu-card">
-          <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-image">
+          <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-image" />
           <h3 class="menu-card-title">-Espresso-</h3>
           <p class="menu-card-price">IDR 15K</p>
         </div>
         <div class="menu-card">
-          <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-image">
+          <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-image" />
           <h3 class="menu-card-title">-Espresso-</h3>
           <p class="menu-card-price">IDR 15K</p>
         </div>
         <div class="menu-card">
-          <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-image">
+          <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-image" />
           <h3 class="menu-card-title">-Espresso-</h3>
           <p class="menu-card-price">IDR 15K</p>
         </div>
         <div class="menu-card">
-          <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-image">
+          <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-image" />
           <h3 class="menu-card-title">-Espresso-</h3>
           <p class="menu-card-price">IDR 15K</p>
         </div>
         <div class="menu-card">
-          <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-image">
+          <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-image" />
           <h3 class="menu-card-title">-Espresso-</h3>
           <p class="menu-card-price">IDR 15K</p>
         </div>
         <div class="menu-card">
-          <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-image">
+          <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-image" />
           <h3 class="menu-card-title">-Espresso-</h3>
           <p class="menu-card-price">IDR 15K</p>
         </div>
@@ -184,8 +222,10 @@
     <!-- Products Section Start -->
     <section class="products" id="products" x-data="products">
       <h2><span>Product Unggulan</span> Kami</h2>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, error.</p>
-      
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, error.
+      </p>
+
       <div class="row">
         <template x-for="(item, index) in items" x-key="index">
           <div class="product-card">
@@ -218,7 +258,7 @@
               </a>
             </div>
             <div class="product-image">
-              <img :src="`img/products/${item.img}`" :alt="item.name">
+              <img :src="`img/products/${item.img}`" :alt="item.name" />
             </div>
             <div class="product-content">
               <h3 x-text="item.name"></h3>
@@ -279,51 +319,56 @@
                   <use href="img/feather-sprite.svg#star" />
                 </svg>
               </div>
-              <div class="product-price"><span x-text="rupiah(item.price)"></span></div>
+              <div class="product-price">
+                <span x-text="rupiah(item.price)"></span>
+              </div>
             </div>
           </div>
         </template>
       </div>
-    
     </section>
 
     <!-- Products Section End -->
 
-
     <!-- Contact Section Start -->
-     <section id="contact" class="contact">
+    <section id="contact" class="contact">
       <h2><span>Kontak</span> Kami</h2>
       <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex, in.</p>
 
       <div class="row">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15838.640786381737!2d110.38571680738151!3d-7.0491567920984695!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e708bdc8eae3f37%3A0x20de78c18fea7545!2sFakultas%20Ekonomika%20dan%20Bisnis%20(FEB)%20UNNES!5e0!3m2!1sid!2sid!4v1730300324433!5m2!1sid!2sid" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="map"></iframe>
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15838.640786381737!2d110.38571680738151!3d-7.0491567920984695!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e708bdc8eae3f37%3A0x20de78c18fea7545!2sFakultas%20Ekonomika%20dan%20Bisnis%20(FEB)%20UNNES!5e0!3m2!1sid!2sid!4v1730300324433!5m2!1sid!2sid"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          class="map"
+        ></iframe>
         <form action="">
           <div class="input-group">
             <i data-feather="user"></i>
-            <input type="text" placeholder="nama">
+            <input type="text" placeholder="nama" />
           </div>
           <div class="input-group">
             <i data-feather="mail"></i>
-            <input type="text" placeholder="email">
+            <input type="text" placeholder="email" />
           </div>
           <div class="input-group">
             <i data-feather="phone"></i>
-            <input type="text" placeholder="no HP">
+            <input type="text" placeholder="no HP" />
           </div>
           <button type="submit" class="btn">Kirim Pesan</button>
         </form>
       </div>
-     </section>
+    </section>
     <!-- Contact Section End -->
 
     <!-- Footer Start -->
-     <footer>
+    <footer>
       <div class="socials">
         <a href="#"><i data-feather="instagram"></i></a>
         <a href="#"><i data-feather="twitter"></i></a>
         <a href="#"><i data-feather="facebook"></i></a>
       </div>
-
 
       <div class="links">
         <a href="#home">Home</a>
@@ -335,34 +380,38 @@
       <div class="credit">
         <p>Created by <a href="">annahseptiani</a>. | &copy; 2024.</p>
       </div>
-     </footer>
+    </footer>
     <!-- Footer End -->
 
-     <!-- Modal Box Item Detail Start-->
-      <div class="modal" id="item-detail-modal">
-        <div class="modal-container">
-          <a href="#" class="close-icon"><i data-feather="x"></i></a>
-          <div class="modal-content">
-            <img src="img/products/1.jpg" alt="Product 1">
-            <div class="product-content">
-              <h3>Product 1</h3>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis maiores maxime assumenda fugiat architecto. Quae unde quo maxime accusantium alias nihil ullam quasi debitis. Quis.</p>
-              <div class="product-stars">
-                <i data-feather="star" class="star-full"></i>
-                <i data-feather="star" class="star-full"></i>
-                <i data-feather="star" class="star-full"></i>
-                <i data-feather="star" class="star-full"></i>
-                <i data-feather="star"></i>
-              </div>
-              <div class="product-price">IDR 30K <span>IDR 55K</span></div>
-              <a href="#"><i data-feather="shopping-cart"></i> <span>add to cart</span></a>
+    <!-- Modal Box Item Detail Start-->
+    <div class="modal" id="item-detail-modal">
+      <div class="modal-container">
+        <a href="#" class="close-icon"><i data-feather="x"></i></a>
+        <div class="modal-content">
+          <img src="img/products/1.jpg" alt="Product 1" />
+          <div class="product-content">
+            <h3>Product 1</h3>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis
+              maiores maxime assumenda fugiat architecto. Quae unde quo maxime
+              accusantium alias nihil ullam quasi debitis. Quis.
+            </p>
+            <div class="product-stars">
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star"></i>
             </div>
+            <div class="product-price">IDR 30K <span>IDR 55K</span></div>
+            <a href="#"
+              ><i data-feather="shopping-cart"></i> <span>add to cart</span></a
+            >
           </div>
         </div>
       </div>
-     <!-- Modal Box Item Detail End -->
-
-
+    </div>
+    <!-- Modal Box Item Detail End -->
 
     <!-- Feather Icons -->
     <script>
