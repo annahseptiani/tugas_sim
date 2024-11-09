@@ -77,13 +77,16 @@
           placeholder="search here"
           x-model="searchTerm"
         />
-        <button id="search-button" @click="searchProduct()"><i data-feather="search"></i></button>
+        <button id="search-button" @click="searchProduct()">
+          <i data-feather="search"></i>
+        </button>
       </div>
       <!-- Search Form End -->
 
       <!-- Shopping Cart Start -->
       <div class="shopping-cart">
-        <template x-for="(item, index) in $store.cart.items" x-keys="index">
+        <!-- <template x-for="(item, index) in $store.cart.items" x-keys="index"> -->
+        <template x-for="(item, index) in $store.cart.items" :key="index">
           <div class="cart-item">
             <img :src="`img/products/${item.img}`" :alt="item.name" />
             <div class="item-detail">

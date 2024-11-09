@@ -1,7 +1,6 @@
 :root {
   --primary: #b6895b;
   --bg: #010101;
-
 }
 
 * {
@@ -124,6 +123,7 @@ body {
 /* Shopping Cart */
 #shopping-cart-button {
   position: relative;
+  margin-bottom: 10vh;
 }
 
 /* #shopping-cart-button .quantity-badge { */
@@ -193,6 +193,14 @@ body {
   font-size: 1.6rem;
   margin-top: -1rem;
   text-align: center;
+}
+
+.shopping-cart {
+  max-height: 90vh; /* Atur tinggi maksimum sesuai kebutuhan */
+  overflow-y: auto; /* Aktifkan penggulungan vertikal */
+  border: 1px solid #ccc; /* Opsional: tambahkan border untuk visualisasi */
+  padding: 10px; /* Opsional: tambahkan padding */
+  background-color: #fff; /* Opsional: tambahkan warna latar belakang */
 }
 
 /* Checkout Form */
