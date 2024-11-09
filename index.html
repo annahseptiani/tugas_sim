@@ -3,56 +3,471 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
+    <title>Veggie-Connect</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      href="https://fonts.googleapis.com/css2?family=Montserrat&family=Pacifico&family=Poppins:ital,wght@0,100;0,300;0,400;0,700;1,700&display=swap"
       rel="stylesheet"
-      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-      crossorigin="anonymous"
     />
+
+    <!-- Feather icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <!-- My Style -->
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!-- App -->
+    <script src="src/app.js" async></script>
+
+    <!-- Midtrans -->
+    <script
+      type="text/javascript"
+      src="https://app.sandbox.midtrans.com/snap/snap.js"
+      data-client-key="SB-Mid-client-bZ0ox2X9yofx5FO1"
+    ></script>
+
+    <!-- Alpain JS -->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+
+    <!-- My Javascript
+    <script src="js/script.js"></script> -->
   </head>
   <body>
-    <div class="container">
-      <div class="row">
-        <div class="col"></div>
-        <div class="col">
-          <div class="card mt-3">
-            <div class="card-header">Form Login</div>
-            <div class="card-body">
-              <div id="message"></div>
-              <div class="mb-3">
-                <label for="">Email</label>
-                <input
-                  type="email"
-                  id="emailInput"
-                  placeholder="Masukkan Email"
-                  class="form-control"
-                />
+    <!-- Navbar Start -->
+    <nav class="navbar" x-data>
+      <a href="#" class="navbar-logo">Veggie<span>Connect</span>.</a>
+
+      <div class="navbar-nav">
+        <a href="#home">Home</a>
+        <a href="#about">Tentang kami</a>
+        <a href="#products">Produk</a>
+        <a href="#menu">Mitra</a>
+        <a href="#contact">Kontak</a>
+      </div>
+
+      <div class="navbar-extra">
+        <a href="#" id="search-button"><i data-feather="search"></i></a>
+        <a href="#" id="shopping-cart-button">
+          <i data-feather="shopping-cart"></i>
+          <span
+            class="quantity.badge"
+            x-show="$store.cart.quantity"
+            x-text="$store.cart.quantity"
+          ></span>
+        </a>
+        <a href="#" id="hamburger-menu"><i data-feather="menu"></i></a>
+      </div>
+
+      <!-- Search Form Start -->
+      <!-- <div class="search-form">
+        <input type="text" id="search-box" placeholder="search here" />
+        <label for="search-box"><i data-feather="search"></i></label>
+      </div> -->
+
+      <div class="search-form">
+        <input
+          type="text"
+          id="search-box"
+          placeholder="search here"
+          x-model="searchTerm"
+        />
+        <button id="search-button" @click="searchProduct()"><i data-feather="search"></i></button>
+      </div>
+      <!-- Search Form End -->
+
+      <!-- Shopping Cart Start -->
+      <div class="shopping-cart">
+        <template x-for="(item, index) in $store.cart.items" x-keys="index">
+          <div class="cart-item">
+            <img :src="`img/products/${item.img}`" :alt="item.name" />
+            <div class="item-detail">
+              <h3 x-text="item.name"></h3>
+              <div class="item-price">
+                <span x-text="rupiah(item.price)"></span> &times;
+                <button id="remove" @click="$store.cart.remove(item.id)">
+                  &minus;
+                </button>
+                <span x-text="rupiah(item.quantity)"></span>
+                <button id="add" @click="$store.cart.add(item)">&plus;</button>
+                &equals;
+                <span x-text="rupiah(item.total)"></span>
               </div>
-              <div class="mb-3">
-                <label for="">Password</label>
-                <input
-                  type="password"
-                  id="passwordInput"
-                  placeholder="Masukkan Password"
-                  class="form-control"
-                />
-              </div>
-            </div>
-            <div class="card-footer">
-              <button class="btn btn-primary" id="btnLogin">Login</button>
             </div>
           </div>
+        </template>
+        <h4 x-show="!$store.cart.items.length" style="margin-top: 1rem">
+          Cart is Empty
+        </h4>
+        <h4 x-show="$store.cart.items.length">
+          Total : <span x-text="rupiah($store.cart.total)"></span>
+        </h4>
+
+        <div class="form-container" x-show="$store.cart.items.length">
+          <form action="" id="checkoutForm">
+            <input
+              type="hidden"
+              name="items"
+              x-model="JSON.stringify($store.cart.items)"
+            />
+            <input type="hidden" name="total" x-model="$store.cart.total" />
+
+            <h5>Customer Detail</h5>
+
+            <label for="name">
+              <span>Name</span>
+              <input type="text" name="name" id="name" />
+            </label>
+            <label for="email">
+              <span>Email</span>
+              <input type="text" name="email" id="email" />
+            </label>
+            <label for="phone">
+              <span>Phone</span>
+              <input type="number" name="phone" id="phone" autocomplete="off" />
+            </label>
+            <label for="addres">
+              <span>Alamat</span>
+              <input type="text" name="addres" id="addres" />
+            </label>
+
+            <button
+              class="checkout-button disabled"
+              type="submit"
+              id="checkout-button"
+              value="checkout"
+            >
+              Checkout
+            </button>
+          </form>
         </div>
-        <div class="col"></div>
+      </div>
+      <!-- Shopping Cart End -->
+    </nav>
+
+    <!-- navbar End -->
+
+    <!-- Hero Section start-->
+
+    <section class="hero" id="home">
+      <!-- <div class="mask-container"> -->
+      <main class="content">
+        <h1>Hubungkan semua <span>Petani sejahtera</span></h1>
+        <p>
+          Platform kolaborasi untuk mencapai distribusi yang efektif dan efisien
+        </p>
+      </main>
+      <!-- </div> -->
+    </section>
+    <!-- Hero Section end-->
+
+    <!-- About Section Start -->
+    <section id="about" class="about">
+      <h2><span>Tentang</span> Kami</h2>
+      <div class="row">
+        <div class="about-img">
+          <img src="img/tentang-kami.jpg" alt="Tentang Kami" />
+        </div>
+        <div class="content">
+          <h3>Kenapa memilih kami</h3>
+          <p>
+            Veggie-Connect adalah platform e-commerce yang hadir sebagai solusi
+            distribusi hasil pertanian yang inovatif di Semarang dan sekitarnya.
+            Melalui platform ini, kami bertujuan untuk menghubungkan konsumen
+            secara langsung dengan petani lokal, menyediakan akses terhadap
+            produk pertanian yang segar dan berkualitas tinggi.
+          </p>
+          <p>
+            Dengan tagline "Hubungkan Semua, Petani Sejahtera," Veggie-Connect
+            tidak hanya berfokus pada transaksi komersial, tetapi juga pada
+            pemberdayaan ekonomi petani dan penguatan sistem ketahanan pangan di
+            daerah setempat.
+          </p>
+        </div>
+      </div>
+    </section>
+    <!-- About Section End -->
+
+    <!-- Products Section Start -->
+    <section class="products" id="products" x-data="products">
+      <h2><span>Produk Unggulan</span> Kami</h2>
+      <p>
+        Veggie-Connect menghadirkan hasil pertanian terbaik untuk kebutuhan
+        Anda, dengan jaminan kesegaran dan kualitas yang dapat dipercaya.
+      </p>
+
+      <div class="row">
+        <template x-for="(item, index) in items" :x-key="index">
+          <div class="product-card" :id="'product-' + item.id">
+            <div class="product-icons">
+              <a href="#" @click.prevent="$store.cart.add(item)">
+                <svg
+                  width="24"
+                  height="24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <use href="img/feather-sprite.svg#shopping-cart" />
+                </svg>
+              </a>
+              <a
+                href="#"
+                class="item-detail-button"
+                @click.prevent="$data.products"
+              >
+                <svg
+                  width="24"
+                  height="24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <use href="img/feather-sprite.svg#eye" />
+                </svg>
+              </a>
+            </div>
+            <div class="product-image">
+              <img :src="`img/products/${item.img}`" :alt="item.name" />
+            </div>
+            <div class="product-content">
+              <h3 x-text="item.name"></h3>
+              <div class="product-stars">
+                <svg
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <use href="img/feather-sprite.svg#star" />
+                </svg>
+                <svg
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <use href="img/feather-sprite.svg#star" />
+                </svg>
+                <svg
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <use href="img/feather-sprite.svg#star" />
+                </svg>
+                <svg
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <use href="img/feather-sprite.svg#star" />
+                </svg>
+                <svg
+                  width="24"
+                  height="24"
+                  fill="currentColor"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <use href="img/feather-sprite.svg#star" />
+                </svg>
+              </div>
+              <div class="product-price">
+                <span x-text="rupiah(item.price)"></span><span> / kg</span>
+              </div>
+            </div>
+          </div>
+        </template>
+      </div>
+    </section>
+
+    <!-- Products Section End -->
+
+    <!-- Menu Section Start -->
+    <section id="menu" class="menu">
+      <h2><span>Mitra</span> Kami</h2>
+      <p>
+        Veggie-Connect bangga bermitra dengan petani-petani berdedikasi di
+        Semarang dan sekitarnya. Temui para petani yang bekerja keras untuk
+        menyediakan produk segar yang Anda nikmati. Bersama mereka, kami
+        berkomitmen mendukung kesejahteraan petani dan memperkuat ketahanan
+        pangan lokal.
+      </p>
+
+      <div class="row">
+        <div class="menu-card">
+          <img src="img/menu/5.jpg" alt="Espresso" class="menu-card-image" />
+          <h3 class="menu-card-title">-Bapak Ahmad-</h3>
+          <p class="menu-card-price">Suplier beras</p>
+        </div>
+        <div class="menu-card">
+          <img src="img/menu/6.jpg" alt="Espresso" class="menu-card-image" />
+          <h3 class="menu-card-title">-Bapak Budi-</h3>
+          <p class="menu-card-price">Suplier beras</p>
+        </div>
+        <div class="menu-card">
+          <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-image" />
+          <h3 class="menu-card-title">-Bapak Dodi-</h3>
+          <p class="menu-card-price">Suplier sayuran</p>
+        </div>
+        <div class="menu-card">
+          <img src="img/menu/7.jpg" alt="Espresso" class="menu-card-image" />
+          <h3 class="menu-card-title">-Bapak Edi-</h3>
+          <p class="menu-card-price">Suplier sayuran</p>
+        </div>
+        <!-- <div class="menu-card">
+          <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-image" />
+          <h3 class="menu-card-title">-Espresso-</h3>
+          <p class="menu-card-price">IDR 15K</p>
+        </div>
+        <div class="menu-card">
+          <img src="img/menu/1.jpg" alt="Espresso" class="menu-card-image" />
+          <h3 class="menu-card-title">-Espresso-</h3>
+          <p class="menu-card-price">IDR 15K</p>
+        </div> -->
+      </div>
+    </section>
+    <!-- Menu Section End -->
+
+    <!-- Contact Section Start -->
+    <section id="contact" class="contact">
+      <h2><span>Kontak</span> Kami</h2>
+      <p>
+        Ada pertanyaan atau memerlukan bantuan? Tim kami siap membantu Anda!
+        Hubungi kami melalui kolom di bawah ini, dan kami akan dengan senang
+        hati menjawab kebutuhan serta memastikan pengalaman berbelanja yang
+        nyaman di Veggie-Connect.
+      </p>
+
+      <div class="row">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15838.640786381737!2d110.38571680738151!3d-7.0491567920984695!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e708bdc8eae3f37%3A0x20de78c18fea7545!2sFakultas%20Ekonomika%20dan%20Bisnis%20(FEB)%20UNNES!5e0!3m2!1sid!2sid!4v1730300324433!5m2!1sid!2sid"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          class="map"
+        ></iframe>
+        <form action="" id="contactForm">
+          <div class="input-group">
+            <i data-feather="user"></i>
+            <input type="text" id="nama" placeholder="nama" />
+          </div>
+          <div class="input-group">
+            <i data-feather="mail"></i>
+            <input type="text" id="mail" placeholder="email" />
+          </div>
+          <div class="input-group">
+            <i data-feather="phone"></i>
+            <input type="text" id="nophone" placeholder="no HP" />
+          </div>
+          <div class="input-group">
+            <i data-feather="message-square"></i>
+            <input type="text" id="pesan" placeholder="sampaikan pesan" />
+          </div>
+          <button type="submit" class="btn">Kirim Pesan</button>
+        </form>
+      </div>
+    </section>
+    <!-- Contact Section End -->
+
+    <!-- Footer Start -->
+    <footer>
+      <div class="socials">
+        <a
+          href="https://www.instagram.com/veggie.connect/profilecard/?igsh=OGU3aW02cXhvcGZ1"
+          target="_blank"
+          ><i data-feather="instagram"></i
+        ></a>
+        <a
+          href="https://www.instagram.com/veggie.connect/profilecard/?igsh=OGU3aW02cXhvcGZ1"
+          target="_blank"
+          ><i data-feather="twitter"></i
+        ></a>
+        <a
+          href="https://www.instagram.com/veggie.connect/profilecard/?igsh=OGU3aW02cXhvcGZ1"
+          target="_blank"
+          ><i data-feather="facebook"></i
+        ></a>
+      </div>
+
+      <div class="links">
+        <a href="#home">Home</a>
+        <a href="#about">Tentang Kami</a>
+        <a href="#products">Produk</a>
+        <a href="#menu">Mitra</a>
+        <a href="#contact">Kontak</a>
+      </div>
+
+      <div class="credit">
+        <p>Created by <a href="">kelompok 2 SIM</a>. | &copy; 2024.</p>
+      </div>
+    </footer>
+    <!-- Footer End -->
+
+    <!-- Modal Box Item Detail Start-->
+
+    <div class="modal" id="item-detail-modal">
+      <div class="modal-container">
+        <a href="#" class="close-icon"><i data-feather="x"></i></a>
+        <div class="modal-content">
+          <img src="img/products/1.jpg" alt="Product 1" />
+          <div class="product-content">
+            <h3>Product 1</h3>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis
+              maiores maxime assumenda fugiat architecto. Quae unde quo maxime
+              accusantium alias nihil ullam quasi debitis. Quis.
+            </p>
+            <div class="product-stars">
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star"></i>
+            </div>
+            <div class="product-price">IDR 30K <span>IDR 55K</span></div>
+            <a href="#"
+              ><i data-feather="shopping-cart"></i> <span>add to cart</span></a
+            >
+          </div>
+        </div>
       </div>
     </div>
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-    ></script>
-    <script src="script.js"></script>
+    <!-- Modal Box Item Detail End -->
+
+    <!-- Feather Icons -->
+    <script>
+      feather.replace();
+    </script>
+
+    <!-- My Javascript -->
+    <script src="js/script.js"></script>
   </body>
 </html>

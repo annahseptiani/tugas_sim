@@ -16,7 +16,10 @@ document.querySelector("#search-button").onclick = (e) => {
   e.preventDefault();
 };
 
-// Toggle claa active untuk shopping cart
+// const searchInput = document.getElementById("search-box");
+
+
+// Toggle class active untuk shopping cart
 const shoppingCart = document.querySelector(".shopping-cart");
 document.querySelector("#shopping-cart-button").onclick = (e) => {
   shoppingCart.classList.toggle("active");
@@ -63,3 +66,26 @@ window.onclick = (e) => {
     itemDetailModal.style.display = "none";
   }
 };
+
+// menangkap inputan kontak
+
+document.getElementById('contactForm').addEventListener('submit', function(event) {
+  event.preventDefault(); // Mencegah form dari pengiriman biasa
+
+  // Mengambil nilai dari input
+  const name = document.getElementById('nama').value;
+  const email = document.getElementById('mail').value;
+  const phone = document.getElementById('nophone').value;
+  const message = document.getElementById('pesan').value;
+
+  // Membuat URL WhatsApp
+  const whatsappNumber = '+6285726095636'; // Nomor WhatsApp pemilik
+  const whatsappMessage = `Nama: ${name}\nEmail: ${email}\nNo HP: ${phone}\nPesan: ${message}`;
+  const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(whatsappMessage)}`;
+
+  // Membuka URL WhatsApp di tab baru
+  window.open(whatsappUrl, whatsappMessage);
+  
+  // Reset form setelah pengiriman
+  this.reset();
+});

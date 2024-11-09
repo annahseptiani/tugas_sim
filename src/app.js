@@ -1,12 +1,31 @@
 document.addEventListener("alpine:init", () => {
   Alpine.data("products", () => ({
     items: [
-      { id: 1, name: "Robusta Brazil", img: "1.jpg", price: 20000 },
-      { id: 2, name: "Arabica Blend", img: "2.jpg", price: 25000 },
-      { id: 3, name: "Primo Passo", img: "3.jpg", price: 30000 },
-      { id: 4, name: "Aceh Gayo", img: "4.jpg", price: 35000 },
-      { id: 5, name: "Sumatra Mandhel", img: "5.jpg", price: 25000 },
+      { id: 1, name: "Cabe Merah", img: "1.jpg", price: 25000 },
+      { id: 2, name: "Tomat", img: "2.jpg", price: 15000 },
+      { id: 3, name: "Kentang", img: "3.jpg", price: 20000 },
+      { id: 4, name: "Bunga Kol", img: "4.jpg", price: 26000 },
+      { id: 5, name: "Bawang Merah", img: "5.jpg", price: 15000 },
+      { id: 6, name: "Bawang Bombai", img: "6.jpg", price: 40000 },
+      { id: 7, name: "Beras", img: "7.jpg", price: 16000 },
+      { id: 8, name: "Buncis", img: "8.jpg", price: 8000 },
     ],
+    searchTerm: "", // Tambahkan properti searchTerm
+    searchProduct() {
+      const foundItem = this.items.find(
+        (item) => item.name.toLowerCase() === this.searchTerm.toLowerCase()
+      );
+      if (foundItem) {
+        const productElement = document.getElementById(
+          "product-" + foundItem.id
+        );
+        if (productElement) {
+          productElement.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      } else {
+        alert("Produk tidak ditemukan");
+      }
+    },
   }));
 
   Alpine.store("cart", {
