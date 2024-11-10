@@ -78,6 +78,10 @@ body {
   margin: 0 0.5rem;
 }
 
+.navbar .navbar-extra #search-button {
+  display: none;
+}
+
 .navbar .navbar-extra a:hover {
   color: var(--primary);
 }
@@ -95,6 +99,7 @@ body {
   width: 50rem;
   height: 5rem;
   display: flex;
+  /* display: none; */
   align-items: center;
   transform: scaleY(0);
   transform-origin: top;
@@ -363,6 +368,8 @@ body {
 
 .about .row .about-img {
   flex: 1 1 45rem;
+  margin-right: 3vh;
+  margin-top: 4vh;
 }
 
 .about .row .about-img img {
@@ -371,6 +378,18 @@ body {
   mask-size: 50%;
   mask-repeat: no-repeat;
   mask-position: center;
+}
+
+.about-img img {
+  width: 100%; /* Pastikan gambar memenuhi kontainer */
+  height: auto; /* Menjaga rasio aspek gambar */
+  border-radius: 30%; /* Membuat gambar berbentuk lingkaran */
+  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.5); /* Menambahkan efek bayangan */
+  transition: transform 0.3s; /* Efek transisi saat hover */
+}
+
+.about-img img:hover {
+  transform: scale(1.05); /* Efek zoom saat hover */
 }
 
 .about .row .content {
@@ -402,6 +421,7 @@ body {
   text-align: center;
   max-width: 30rem;
   margin: auto;
+  font-size: 1.3rem;
   font-weight: 100;
   line-height: 1.6;
 }
@@ -445,6 +465,11 @@ body {
   display: flex;
   justify-content: center;
   gap: 0.5rem;
+}
+
+.products .product-icons .item-detail-button {
+  /* visibility: hidden; */
+  display: none;
 }
 
 .products .product-icons a {

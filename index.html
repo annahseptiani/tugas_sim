@@ -41,7 +41,7 @@
   <body>
     <!-- Navbar Start -->
     <nav class="navbar" x-data>
-      <a href="#" class="navbar-logo">Veggie<span>Connect</span>.</a>
+      <a href="#" class="navbar-logo">Veggie<span>Connect</span></a>
 
       <div class="navbar-nav">
         <a href="#home">Home</a>
@@ -160,7 +160,7 @@
     <section class="hero" id="home">
       <!-- <div class="mask-container"> -->
       <main class="content">
-        <h1>Hubungkan semua <span>Petani sejahtera</span></h1>
+        <h1>Hubungkan semua, <span>Petani sejahtera</span></h1>
         <p>
           Platform kolaborasi untuk mencapai distribusi yang efektif dan efisien
         </p>
@@ -174,19 +174,23 @@
       <h2><span>Tentang</span> Kami</h2>
       <div class="row">
         <div class="about-img">
-          <img src="img/tentang-kami.jpg" alt="Tentang Kami" />
+          <h3></h3>
+          <img src="img/Desain VeggieConnect (1).png" alt="Tentang Kami" />
         </div>
         <div class="content">
-          <h3>Kenapa memilih kami</h3>
+          <h3>Apa itu VeggieConnect?</h3>
           <p>
-            Veggie-Connect adalah platform e-commerce yang hadir sebagai solusi
-            distribusi hasil pertanian yang inovatif di Semarang dan sekitarnya.
-            Melalui platform ini, kami bertujuan untuk menghubungkan konsumen
-            secara langsung dengan petani lokal, menyediakan akses terhadap
-            produk pertanian yang segar dan berkualitas tinggi.
+            VeggieConnect merupakan platform distribusi produk pertanian cerdas
+            yang menyediakan berbagai fitur unggulan seperti informasi pilihan
+            produk, informasi mitra (produsen), fitur kontak langsung, hingga
+            akses pembayaran digital untuk meyediakan pengalaman berbelanja yang
+            mudah digunakan dan terjangkau. Dengan menggunakan basis website,
+            VeggieConnect bertujuan menjadikan proses jual beli produk pertanian
+            lebih cepat dan efisien sehingga memastikan kualitas dan kesegaran
+            produk tetap terjaga.
           </p>
           <p>
-            Dengan tagline "Hubungkan Semua, Petani Sejahtera," Veggie-Connect
+            Dengan tagline "Hubungkan Semua, Petani Sejahtera" VeggieConnect
             tidak hanya berfokus pada transaksi komersial, tetapi juga pada
             pemberdayaan ekonomi petani dan penguatan sistem ketahanan pangan di
             daerah setempat.
@@ -200,12 +204,13 @@
     <section class="products" id="products" x-data="products">
       <h2><span>Produk Unggulan</span> Kami</h2>
       <p>
-        Veggie-Connect menghadirkan hasil pertanian terbaik untuk kebutuhan
-        Anda, dengan jaminan kesegaran dan kualitas yang dapat dipercaya.
+        VeggieConnect menghadirkan hasil pertanian terbaik untuk kebutuhan Anda,
+        dengan jaminan kesegaran dan kualitas yang dapat dipercaya.
       </p>
 
       <div class="row">
-        <template x-for="(item, index) in items" :x-key="index">
+        <!-- <template x-for="(item, index) in items" :x-key="index"> -->
+        <template x-for="(item, index) in items" :x-key="index.id">
           <div class="product-card" :id="'product-' + item.id">
             <div class="product-icons">
               <a href="#" @click.prevent="$store.cart.add(item)">
@@ -221,10 +226,28 @@
                   <use href="img/feather-sprite.svg#shopping-cart" />
                 </svg>
               </a>
-              <a
+              <!-- <a
                 href="#"
                 class="item-detail-button"
                 @click.prevent="$data.products"
+              >
+                <svg
+                  width="24"
+                  height="24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <use href="img/feather-sprite.svg#eye" />
+                </svg>
+              </a> -->
+
+              <a
+                href="#"
+                class="item-detail-button"
+                @click.prevent="openModal(item)"
               >
                 <svg
                   width="24"
@@ -316,7 +339,7 @@
     <section id="menu" class="menu">
       <h2><span>Mitra</span> Kami</h2>
       <p>
-        Veggie-Connect bangga bermitra dengan petani-petani berdedikasi di
+        VeggieConnect bangga bermitra dengan petani-petani berdedikasi di
         Semarang dan sekitarnya. Temui para petani yang bekerja keras untuk
         menyediakan produk segar yang Anda nikmati. Bersama mereka, kami
         berkomitmen mendukung kesejahteraan petani dan memperkuat ketahanan
@@ -362,10 +385,10 @@
     <section id="contact" class="contact">
       <h2><span>Kontak</span> Kami</h2>
       <p>
-        Ada pertanyaan atau memerlukan bantuan? Tim kami siap membantu Anda!
+        Ada pertanyaan atau memerlukan bantuan? Tim kami siap membantu Anda.
         Hubungi kami melalui kolom di bawah ini, dan kami akan dengan senang
         hati menjawab kebutuhan serta memastikan pengalaman berbelanja yang
-        nyaman di Veggie-Connect.
+        nyaman di VeggieConnect.
       </p>
 
       <div class="row">
@@ -435,7 +458,44 @@
 
     <!-- Modal Box Item Detail Start-->
 
-    <div class="modal" id="item-detail-modal">
+    <div
+      class="modal"
+      id="item-detail-modal"
+      x-data="{ open: false, product: {} }"
+      x-show="open"
+      @click.away="open = false"
+      @open-modal.window="open = true; product = $event.detail"
+    >
+      <div class="modal-container">
+        <a href="#" class="close-icon" @click.prevent="open = false"
+          ><i data-feather="x"></i
+        ></a>
+        <div class="modal-content">
+          <img :src="product.img" alt="Product Image" />
+          <div class="product-content">
+            <h3 x-text="product.name"></h3>
+            <p x-text="product.description">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis
+              maiores maxime assumenda fugiat architecto. Quae unde quo maxime
+              accusantium alias nihil ullam quasi debitis. Quis.
+            </p>
+            <div class="product-stars">
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star"></i>
+            </div>
+            <div class="product-price" x-text="product.price"></div>
+            <a href="#" class="add-to-cart"
+              ><i data-feather="shopping-cart"></i> <span>add to cart</span></a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="modal" id="item-detail-modal">
       <div class="modal-container">
         <a href="#" class="close-icon"><i data-feather="x"></i></a>
         <div class="modal-content">
@@ -461,7 +521,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Modal Box Item Detail End -->
 
@@ -472,5 +532,9 @@
 
     <!-- My Javascript -->
     <script src="js/script.js"></script>
+
+    <script>
+      feather.replace();
+    </script>
   </body>
 </html>
