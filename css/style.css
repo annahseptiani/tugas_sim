@@ -99,7 +99,6 @@ body {
   width: 50rem;
   height: 5rem;
   display: flex;
-  /* display: none; */
   align-items: center;
   transform: scaleY(0);
   transform-origin: top;
